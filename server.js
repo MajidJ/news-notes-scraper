@@ -6,6 +6,7 @@ const cheerio = require('cheerio');
 const $ = cheerio.load('<h2 class="title">Hello world</h2>');
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+const PORT = process.env.PORT || 3000;
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
@@ -22,4 +23,4 @@ app.get('/', function (req, res) {
     res.render('home');
 });
  
-app.listen(3000);
+app.listen(PORT);
