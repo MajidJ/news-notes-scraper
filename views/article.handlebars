@@ -9,10 +9,11 @@
                         <div class="card-body">
                             <a href="{{link}}" target="_blank">{{title}}</a>
                             <p>{{summary}}</p>
-                            <button value="{{_id}}" type="button" class="btn btn-warning delete">Delete</button>
-                            <a href="/articles/{{_id}}">
-                                <button type="button" class="btn btn-primary">Add Notes</button>
-                            </a>
+                            <form class="form-control">
+                                <label for="noteBody">Add a note:</label>
+                                <textarea type="text" id="noteBody" class="form-control"></textarea>
+                                <button value="{{_id}}" type="button" class="btn btn-primary submit">Submit</button>
+                            </form>
                         </div>
                     </div>
                     {{/each}}
