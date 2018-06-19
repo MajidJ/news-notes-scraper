@@ -5,11 +5,11 @@
                 <div class="card-header">The news</div>
                 <div class="card-body" id="listedArticles">
                     {{#each dbArticle}}
-                    <div class="card">
+                    <div class="card mb-3">
                         <div class="card-body">
                             <a href="{{link}}" target="_blank">{{title}}</a>
                             <p>{{summary}}</p>
-                            <button value="{{_id}}" type="button" class="btn btn-warning delete">Delete</button>
+                            <button value="{{_id}}" type="button" class="btn btn-warning deleteArticle">Delete</button>
                             <a href="/articles/{{_id}}">
                                 <button type="button" class="btn btn-primary">Add Notes</button>
                             </a>

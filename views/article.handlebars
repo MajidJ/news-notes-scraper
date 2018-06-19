@@ -2,22 +2,36 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">The news</div>
-                <div class="card-body" id="listedArticles">
-                    {{#each dbArticle}}
-                    <div class="card">
-                        <div class="card-body">
-                            <a href="{{link}}" target="_blank">{{title}}</a>
-                            <p>{{summary}}</p>
-                            <form class="form-control">
-                                <label for="noteBody">Add a note:</label>
-                                <textarea type="text" id="noteBody" class="form-control"></textarea>
-                                <button value="{{_id}}" type="button" class="btn btn-primary submit">Submit</button>
-                            </form>
-                        </div>
-                    </div>
-                    {{/each}}
+                {{#each dbArticle}}
+                <div class="card-header">
+                    <a href="{{link}}" target="_blank"><h3>{{title}}</h3></a>
                 </div>
+                <div class="card-body" id="listedArticles">
+                    <p>{{summary}}</p>
+                    {{!-- {{#if notes}} --}}
+                    <div id="listedNotes">
+                        {{#each notes}}
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h4>{{this.title}}</h4>
+                            </div>
+                            <div class="card-body">
+                                Comment: <p>{{this.body}}</p>
+                                <button value="{{this._id}}" type="button" class="btn btn-warning deleteNote">Delete</button>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                    {{!-- {{/if}} --}}
+                    <form class="form-control">
+                        <label for="noteTitle">Title:</label>
+                        <input type="text" id="noteTitle" class="form-control">
+                        <label for="noteBody">Note:</label>
+                        <textarea type="text" id="noteBody" class="form-control"></textarea>
+                        <button value="{{_id}}" type="button" class="my-2 btn btn-primary submit">Submit</button>
+                    </form>
+                </div>
+                {{/each}}
             </div>
         </div>
     </div>

@@ -47,6 +47,25 @@ app.get('/scrape', function (req, res) {
     db.Article.remove({}, function(err) {
         if (err) console.log(err);
     })
+    .then(function(dbArticle) {
+        console.log('removed articles');
+    })
+    .catch(function(err) {
+        // res.json(err);
+        console.log(err);
+    });
+
+    db.Note.remove({}, function(err) {
+        if (err) console.log(err);
+    })
+    .then(function(dbNote) {
+        console.log('removed notes');
+    })
+    .catch(function(err) {
+        // res.json(err);
+        console.log(err);
+    });
+
     request(url, function(err, response, html) {
         const $ = cheerio.load(html);
         const results = [];
@@ -54,51 +73,47 @@ app.get('/scrape', function (req, res) {
             let result = {};
             result.title = $(elem).children('a').text().trim();
             result.link = $(elem).children('a').attr('href');
-            db.Article.create(result)
-            .then(function(dbArticle) {
-                // console.log(dbArticle);
-            })
-            .catch(function(err) {
-                return res.json(err);
-            });
+            result.summary = $(elem).parent().children('.summary').text();
+            if (result.title && result.link && result.summary) {
+                // console.log(result);
+                db.Article.create(result)
+                .then(function(dbArticle) {
+                    console.log(dbArticle);
+                })
+                .catch(function(err) {
+                    res.json(err);
+                });
+            }
         });
-        // db.Article.ensureIndexes({unique: true, dropDups: true}, function(err) {
-        //     if (err) {
-        //         console.log(err)
-        //     } else {
-        //         console.log('success');
-        //     }
-        // });
         return res.send("Scrape Complete");
     });
 });
 
-app.get('/articles', function (req, res) {
-    db.Article.find({})
-        .then(function(dbArticle) {
-            res.render('home', {dbArticle: dbArticle});
-        })
-        .catch(function(err) {
-            res.json(err);
-        });
-});
+// app.get('/articles', function (req, res) {
+//     db.Article.find({})
+//         .then(function(dbArticle) {
+//             res.json(dbArticle);
+//         })
+//         .catch(function(err) {
+//             res.json(err);
+//         });
+// });
 
 app.get('/articles/:id', function(req, res) {
     db.Article.find({_id: req.params.id})
-        .populate("note")
+        .populate("notes")
         .then(function(dbArticle) {
             res.render('article', {dbArticle: dbArticle});
-            // res.json(dbArticle);
         })
         .catch(function(err) {
             res.json(err);
         });
 });
 
-app.post('/notes/:id', function(req, res) {
+app.post('/notes/:articleId', function(req, res) {
     db.Note.create(req.body)
         .then(function(dbNote) {
-            return db.Article.findOneAndUpdate({ _id: req.params.id }, {$push: { notes: dbNote._id }}, { new: true });
+            return db.Article.findOneAndUpdate({ _id: req.params.articleId }, {$push: { notes: dbNote._id }}, { new: true });
         })
         .then(function(dbArticle) {
             res.json(dbArticle);
@@ -110,8 +125,8 @@ app.post('/notes/:id', function(req, res) {
 
 
 
-app.delete('/delete/articles/:id', function(req, res) {
-    db.Article.remove({_id: req.params.id})
+app.delete('/delete/articles/:articleId', function(req, res) {
+    db.Article.remove({_id: req.params.articleId})
         .then(function(dbArticle) {
             res.json(dbArticle);
         })
@@ -120,14 +135,17 @@ app.delete('/delete/articles/:id', function(req, res) {
         })
 });
 
-app.delete('/delete/notes/:id', function(req, res) {
-    db.Note.remove({_id: req.params.id})
+app.delete('/delete/notes/:articleId/:noteId', function(req, res) {
+    db.Note.remove({_id: req.params.noteId})
+        .then(function(dbNote) {
+            return db.Article.update({_id: req.params.articleId}, {$pull : {notes: req.params.noteId}})
+        })
         .then(function(dbArticle) {
             res.json(dbArticle);
         })
         .catch(function(err) {
             res.json(err);
-        })
+        });
 });
 
 
@@ -142,8 +160,8 @@ app.get('/api/articles', function(req, res) {
     });
 });
 
-app.get('/api/articles/:id', function(req, res) {
-    db.Article.findOne({_id: req.params.id})
+app.get('/api/articles/:articleId', function(req, res) {
+    db.Article.findOne({_id: req.params.articleId})
     .then(function(dbArticle) {
         res.json(dbArticle);
     })
@@ -152,8 +170,8 @@ app.get('/api/articles/:id', function(req, res) {
     });
 });
 
-app.get('/api/notes/:id', function(req, res) {
-    db.Note.findOne({_id: req.params.id})
+app.get('/api/notes/:noteId', function(req, res) {
+    db.Note.findOne({_id: req.params.noteId})
     .then(function(dbArticle) {
         res.json(dbArticle);
     })
