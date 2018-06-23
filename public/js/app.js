@@ -11,14 +11,21 @@ $(document).on('click', '#getArticles', function(event) {
         $.getJSON('/api/articles', function(data) {
             data.forEach(function(article) {
                 $('#listedArticles').append(
-                    `<div class="card mb-3">
-                        <div class="card-body">
-                            <a href="${article.link}" target="_blank">${article.title}</a>
-                            <p>${article.summary}</p>
-                            <button value="${article._id}" type="button" class="btn btn-warning deleteArticle">Delete</button>
-                            <a href="/articles/${article._id}">
-                                <button type="button" class="btn btn-primary">Add Notes</button>
-                            </a>
+                    `<div class="col-md-6 col-lg-6 mb-4 max-h">
+                        <div class="card max-h">
+                            <div class="card-body max-h">
+                                <h4 class="card-title">                                        
+                                    <a href="/articles/${article._id}">${article.title}</a></h4>
+                                <p class="card-text">
+                                    ${article.summary}
+                                </p>
+                                <a href="/articles/${article._id}">
+                                    <button type="button" class="btn btn-primary">Add Notes</button>
+                                </a>
+                                <a href="${article.link}" target="_blank">
+                                    <button type="button" class="btn btn-info">View Article</button>
+                                </a>
+                            </div>
                         </div>
                     </div>`
                 );
@@ -55,7 +62,7 @@ $(document).on('click', '.submit', function(event) {
                         <h4>${title}</h4>
                     </div>
                     <div class="card-body">
-                        <p>""${body}"</p>
+                        <p>"${body}"</p>
                         <button value="${data.notes[data.notes.length - 1]}" type="button" class="btn btn-warning deleteNote">Delete</button>
                     </div>
                 </div>`

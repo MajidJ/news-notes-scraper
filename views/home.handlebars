@@ -1,23 +1,35 @@
 <main>
-    <div class="row">
+    {{!-- <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">The news</div>
-                <div class="card-body" id="listedArticles">
-                    {{#each dbArticle}}
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <a href="{{link}}" target="_blank">{{title}}</a>
-                            <p>{{summary}}</p>
-                            <button value="{{_id}}" type="button" class="btn btn-warning deleteArticle">Delete</button>
-                            <a href="/articles/{{_id}}">
-                                <button type="button" class="btn btn-primary">Add Notes</button>
-                            </a>
+                <div class="card-body" id="listedArticles"> --}}
+                    <div class="row max-h" >
+                        <div class="card-deck max-h" id="listedArticles">
+                        {{#each dbArticle}}
+                            <div class="col-md-6 col-lg-6 mb-4 max-h">
+                                <div class="card max-h">
+                                    <div class="card-body max-h">
+                                        <h4 class="card-title">                                        
+                                            <a href="/articles/{{_id}}">{{title}}</a></h4>
+                                        <p class="card-text">
+                                            {{summary}}
+                                        </p>
+                                        <a href="/articles/{{_id}}">
+                                            <button type="button" class="btn btn-primary">Add Notes</button>
+                                        </a>
+                                        <a href="{{link}}" target="_blank">
+                                            <button type="button" class="btn btn-info">View Article</button>
+                                        </a>
+                                        {{!-- <button value="{{_id}}" type="button" class="btn btn-outline-danger deleteArticle">Delete</button> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        {{/each}}
                         </div>
                     </div>
-                    {{/each}}
-                </div>
+                {{!-- </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </main>

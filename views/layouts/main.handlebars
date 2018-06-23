@@ -5,18 +5,40 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Document</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.4/css/mdb.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/styles/style.css">
+        {{!-- <link rel="stylesheet" href="./assets/animations/animate.css"> --}}
     </head>
     <body>
         <div class="container">
             <header>
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <div class="card card-image" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
+                            <div class="text-white text-center py-5 px-4 my-5">
+                                <div>
+                                    <h1 class="pt-0 mb-2 font-bold display-4"><strong>News Notes</strong></h1>
+                                    <h2 class="mx-5 mb-3 lead">
+                                        Track your own thoughts around recent news articles.
+                                    </h2>
+                                    <button class="btn btn-outline-white btn-rounded" id="getArticles">Add Articles</button>
+                                    <button class="btn btn-outline-white btn-rounded" id="eraseArticles">Clear Articles</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            {{!-- <header>
                 <div class="jumbotron">
-                    <a href="/"><h1 class="display-4">News Scraper</h1></a>
+                    <a href="/"><h1 class="display-4">News Notes</h1></a>
                     <h2 class="lead">Get your news.</h2>
                     <button class="btn btn-primary" id="getArticles">Add Articles</button>
                     <button class="btn btn-primary" id="eraseArticles">Erase Articles</button>
                 </div>
-            </header>
+            </header> --}}
 
             {{{body}}}
 
