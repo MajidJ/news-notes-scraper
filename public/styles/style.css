@@ -6,3 +6,7 @@ body {
 .max-h .card-deck .card {
     height: 100%;
 }
+
+h1 a{
+    color: #ffffff;
+}
