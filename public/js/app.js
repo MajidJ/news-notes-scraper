@@ -55,7 +55,7 @@ $(document).on('click', '.submit', function(event) {
                         <h4>${title}</h4>
                     </div>
                     <div class="card-body">
-                        Comment: <p>${body}</p>
+                        <p>""${body}"</p>
                         <button value="${data.notes[data.notes.length - 1]}" type="button" class="btn btn-warning deleteNote">Delete</button>
                     </div>
                 </div>`

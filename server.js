@@ -44,27 +44,27 @@ app.get('/', function (req, res) {
 });
 
 app.get('/scrape', function (req, res) {
-    db.Article.remove({}, function(err) {
-        if (err) console.log(err);
-    })
-    .then(function(dbArticle) {
-        console.log('removed articles');
-    })
-    .catch(function(err) {
-        // res.json(err);
-        console.log(err);
-    });
+    // db.Article.remove({}, function(err) {
+    //     if (err) console.log(err);
+    // })
+    // .then(function(dbArticle) {
+    //     console.log('removed articles');
+    // })
+    // .catch(function(err) {
+    //     // res.json(err);
+    //     console.log(err);
+    // });
 
-    db.Note.remove({}, function(err) {
-        if (err) console.log(err);
-    })
-    .then(function(dbNote) {
-        console.log('removed notes');
-    })
-    .catch(function(err) {
-        // res.json(err);
-        console.log(err);
-    });
+    // db.Note.remove({}, function(err) {
+    //     if (err) console.log(err);
+    // })
+    // .then(function(dbNote) {
+    //     console.log('removed notes');
+    // })
+    // .catch(function(err) {
+    //     // res.json(err);
+    //     console.log(err);
+    // });
 
     request(url, function(err, response, html) {
         const $ = cheerio.load(html);
@@ -81,23 +81,17 @@ app.get('/scrape', function (req, res) {
                     console.log(dbArticle);
                 })
                 .catch(function(err) {
-                    res.json(err);
+                    if (err.code === 11000) {
+                        console.log('Scraped article is a duplicate in the db. Not added.')
+                    } else {
+                        console.log(err);
+                    }
                 });
             }
         });
         return res.send("Scrape Complete");
     });
 });
-
-// app.get('/articles', function (req, res) {
-//     db.Article.find({})
-//         .then(function(dbArticle) {
-//             res.json(dbArticle);
-//         })
-//         .catch(function(err) {
-//             res.json(err);
-//         });
-// });
 
 app.get('/articles/:id', function(req, res) {
     db.Article.find({_id: req.params.id})
